@@ -18,6 +18,7 @@ import Kitura
 import SwiftyJSON
 import LoggerAPI
 import CloudFoundryEnv
+import SwiftCron
 
 public class Controller {
 
@@ -49,6 +50,8 @@ public class Controller {
 
     // JSON Get request
     router.get("/json", handler: getJSON)
+
+    router.get("/:cron", handler: getCron)
   }
 
   public func getHello(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
@@ -78,5 +81,22 @@ public class Controller {
     jsonResponse["location"].stringValue = "Austin, Texas"
     try response.status(.OK).send(json: jsonResponse).end()
   }
+
+  public func getCron(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
+    defer {
+        next()
+    }
+
+    Log.debug("GET - /:cron route handler...")
+    response.headers["Content-Type"] = "text/plain; charset=utf-8"
+    
+    guard let cronString = request.parameters["cron"],
+        let cronExpression = SwiftCron.CronExpression(cronString: cronString) else {
+            response.status(.badRequest).send("Invalid cron expression.")
+            return
+    }
+
+    response.status(.OK).send(cronExpression.longDescription)
+}
 
 }
