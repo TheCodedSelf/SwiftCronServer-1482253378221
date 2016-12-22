@@ -26,6 +26,6 @@ let package = Package(
       .Package(url: "https://github.com/IBM-Swift/HeliumLogger.git", majorVersion: 1, minor: 3),
       .Package(url: "https://github.com/IBM-Swift/Swift-cfenv.git", majorVersion: 1, minor: 9),
       .Package(url: "https://github.com/IBM-Bluemix/cf-deployment-tracker-client-swift.git", majorVersion: 0, minor: 8),
-      .Package(url: "https://github.com/TheCodedSelf/SwiftCron.git", majorVersion: 0)
+      .Package(url: "https://github.com/TheCodedSelf/SwiftCron.git", "0.4.4")
     ],
     exclude: ["Makefile", "Package-Builder"])
